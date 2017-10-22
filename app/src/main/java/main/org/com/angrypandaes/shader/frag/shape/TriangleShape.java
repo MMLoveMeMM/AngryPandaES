@@ -34,6 +34,8 @@ public class TriangleShape extends AbstractVertexTexture {
 
     private int textureID;
 
+    private float mType;
+
     public TriangleShape(Context context) {
         this.context = context;
 
@@ -41,6 +43,11 @@ public class TriangleShape extends AbstractVertexTexture {
         initTexture(0);
         initShader();
 
+        mType=0;
+    }
+
+    public void setType(float type){
+        mType=type;
     }
 
     @Override
@@ -86,8 +93,6 @@ public class TriangleShape extends AbstractVertexTexture {
         String vertex_src = ShaderParse.loadFromAssetsFile("vertex_triangle_vertex.glsl", context.getResources());//
         String frag_src = ShaderParse.loadFromAssetsFile("vertex_triangle_frag.glsl", context.getResources());//
 
-        Log.i("TEXT",""+vertex_src);
-
         mProgram = ShaderParse.createProgram(vertex_src, frag_src);
 
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
@@ -115,6 +120,8 @@ public class TriangleShape extends AbstractVertexTexture {
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
         GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
         GLES20.glVertexAttribPointer(mTextureCoordsHandle, 2, GLES20.GL_FLOAT, false, 0, coordBuffer);
+
+        GLES20.glUniform1f(mEffectHandle,mType);
 
         GLES20.glEnableVertexAttribArray(mPositionHandle);
         GLES20.glEnableVertexAttribArray(mTextureCoordsHandle);
