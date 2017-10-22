@@ -1,7 +1,12 @@
 package main.org.com.angrypandaes.shader;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
+import android.opengl.GLUtils;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
@@ -127,16 +132,47 @@ public class ShaderParse {
         return result;
     }
 
+    public static Bitmap LoadTextureFromAssets(Context context, int resId) {
+
+        Bitmap bitmap=null;
+        //通过输入流加载图片
+        AssetManager am = context.getResources().getAssets();
+        InputStream is = null;
+        try {
+            Resources res = context.getResources();
+            is = res.openRawResource(resId);
+            bitmap = BitmapFactory.decodeStream(is);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return bitmap;
+    }
     /*
     * 初始化纹理
     * */
-    public int[] initTexture(){
+    public static int[] initTexture(Context context,int resId){
 
         int textures[] =new int[1];
 
         GLES20.glGenTextures(1,textures,0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,textures[0]);
 
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MIN_FILTER,GLES20.GL_NEAREST);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MAG_FILTER,GLES20.GL_LINEAR);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_WRAP_S,GLES20.GL_CLAMP_TO_EDGE);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_WRAP_T,GLES20.GL_CLAMP_TO_EDGE);
+
+        Bitmap bitmap=null;
+        bitmap = LoadTextureFromAssets(context,resId);
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D,0,bitmap,0);
+        bitmap.recycle();
 
         return textures;
     }

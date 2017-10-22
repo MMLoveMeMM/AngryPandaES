@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import main.org.com.angrypandaes.basic.BasicSurfaceView;
 import main.org.com.angrypandaes.sensor.gsensor.SensorSurfaceView;
+import main.org.com.angrypandaes.shader.frag.FragSurfaceView;
 import main.org.com.angrypandaes.shader.vertex.GLVertexSurfaceView;
 import main.org.com.angrypandaes.texture.TextureSurfaceView;
 
@@ -27,7 +28,7 @@ public class MainActivity extends Activity {
         basicSurfaceView=new BasicSurfaceView(MainActivity.this);
         textureSurfaceView=new TextureSurfaceView(MainActivity.this);
         sensorSurfaceView=new SensorSurfaceView(MainActivity.this);
-        setContentView(new GLVertexSurfaceView(MainActivity.this)/*sensorSurfaceView*//*textureSurfaceView*//*basicSurfaceView*/);
+        setContentView(new FragSurfaceView(MainActivity.this)/*new GLVertexSurfaceView(MainActivity.this)*//*sensorSurfaceView*//*textureSurfaceView*//*basicSurfaceView*/);
 
     }
 
