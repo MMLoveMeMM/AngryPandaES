@@ -2,7 +2,6 @@ package main.org.com.angrypandaes.shader.frag.shape;
 
 import android.content.Context;
 import android.opengl.GLES20;
-import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -43,7 +42,7 @@ public class TriangleShape extends AbstractVertexTexture {
         initTexture(0);
         initShader();
 
-        mType=0;
+        mType=3;
     }
 
     public void setType(float type){
@@ -122,6 +121,7 @@ public class TriangleShape extends AbstractVertexTexture {
         GLES20.glVertexAttribPointer(mTextureCoordsHandle, 2, GLES20.GL_FLOAT, false, 0, coordBuffer);
 
         GLES20.glUniform1f(mEffectHandle,mType);
+        //GLES20.glUniform1i(mEffectHandle,mType);
 
         GLES20.glEnableVertexAttribArray(mPositionHandle);
         GLES20.glEnableVertexAttribArray(mTextureCoordsHandle);
